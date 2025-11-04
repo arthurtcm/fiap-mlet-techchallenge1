@@ -24,7 +24,7 @@ Run the app (from the repo root):
 
 ```powershell
 cd app
-python src/main.py
+python app.py
 ```
 
 By default the app runs with `debug=True` on port 5000. Flasgger will expose interactive API docs (usually at `/apidocs`).
@@ -46,13 +46,48 @@ All routes are prefixed with `/api/v1`.
 Example:
 
 ```
-GET /api/v1/books?page=1&total_records=10
+GET /api/v1/books?page=1&total_records=3
 
 Response 200
-[
-  { "id": 1, "title": "Example Book", "category": "Fiction", "author": "Author Name" },
-  ...
-]
+{
+    "books": [
+        {
+            "categoria": "Travel",
+            "disponibilidade": "In stock",
+            "id": 0,
+            "imagem": "../../../../media/cache/27/a5/27a53d0bb95bdd88288eaf66c9230d7e.jpg",
+            "link": "../../../its-only-the-himalayas_981/index.html",
+            "preco": "Â£45.17",
+            "rating": "Two",
+            "titulo": "It's Only the Himalayas"
+        },
+        {
+            "categoria": "Travel",
+            "disponibilidade": "In stock",
+            "id": 1,
+            "imagem": "../../../../media/cache/57/77/57770cac1628f4407636635f4b85e88c.jpg",
+            "link": "../../../full-moon-over-noahs-ark-an-odyssey-to-mount-ararat-and-beyond_811/index.html",
+            "preco": "Â£49.43",
+            "rating": "Four",
+            "titulo": "Full Moon over Noahâs Ark: An Odyssey to Mount Ararat and Beyond"
+        },
+        {
+            "categoria": "Travel",
+            "disponibilidade": "In stock",
+            "id": 2,
+            "imagem": "../../../../media/cache/9a/7e/9a7e63f12829df4b43b31d110bf3dc2e.jpg",
+            "link": "../../../see-america-a-celebration-of-our-national-parks-treasured-sites_732/index.html",
+            "preco": "Â£48.87",
+            "rating": "Three",
+            "titulo": "See America: A Celebration of Our National Parks & Treasured Sites"
+        }
+    ],
+    "info": {
+        "pagina_atual": 1,
+        "total_registros": 1000,
+        "total_registros_retornados": 3
+    }
+}
 ```
 
 2) Search books by category or title
@@ -73,23 +108,73 @@ Response 200
 Examples:
 
 ```
-GET /api/v1/books/search?category=Science&page=1
+GET /api/v1/books/search?category=Science&page=1&total_records=2
 
 Response 200
-[
-  { "id": 10, "title": "Physics for Everyone", "category": "Science", "author": "A. Scientist" },
-  ...
-]
+{
+    "books": [
+        {
+            "categoria": "Science",
+            "disponibilidade": "In stock",
+            "id": 798,
+            "imagem": "../../../../media/cache/d4/8d/d48d5122a15347e9fe2b15ad354d69bf.jpg",
+            "link": "../../../the-most-perfect-thing-inside-and-outside-a-birds-egg_938/index.html",
+            "preco": "Â£42.96",
+            "rating": "Four",
+            "titulo": "The Most Perfect Thing: Inside (and Outside) a Bird's Egg"
+        },
+        {
+            "categoria": "Science",
+            "disponibilidade": "In stock",
+            "id": 799,
+            "imagem": "../../../../media/cache/26/1c/261c4eaf957ae4aacf2229b482e76dbe.jpg",
+            "link": "../../../immunity-how-elie-metchnikoff-changed-the-course-of-modern-medicine_900/index.html",
+            "preco": "Â£57.36",
+            "rating": "Five",
+            "titulo": "Immunity: How Elie Metchnikoff Changed the Course of Modern Medicine"
+        }
+    ],
+    "info": {
+        "pagina_atual": 1,
+        "total_registros": 14,
+        "total_registros_retornados": 2
+    }
+}
 
-GET /api/v1/books/search?title=Magic&page=1
+GET /api/v1/books/search?title=Magic&page=1&total_records=2
 
 Response 200
-[
-  { "id": 3, "title": "The Magic World", "category": "Fantasy", "author": "B. Writer" },
-  ...
-]
+{
+    "books": [
+        {
+            "categoria": "Nonfiction",
+            "disponibilidade": "In stock",
+            "id": 333,
+            "imagem": "../../../../media/cache/95/64/95647d6a526bf54120b9445e124794e1.jpg",
+            "link": "../../../the-life-changing-magic-of-tidying-up-the-japanese-art-of-decluttering-and-organizing_936/index.html",
+            "preco": "Â£16.77",
+            "rating": "Three",
+            "titulo": "The Life-Changing Magic of Tidying Up: The Japanese Art of Decluttering and Organizing"
+        },
+        {
+            "categoria": "Nonfiction",
+            "disponibilidade": "In stock",
+            "id": 348,
+            "imagem": "../../../../media/cache/62/ad/62ad9b4077416ddc0c4908062bca0e5e.jpg",
+            "link": "../../../big-magic-creative-living-beyond-fear_796/index.html",
+            "preco": "Â£30.80",
+            "rating": "Three",
+            "titulo": "Big Magic: Creative Living Beyond Fear"
+        }
+    ],
+    "info": {
+        "pagina_atual": 1,
+        "total_registros": 1000,
+        "total_registros_retornados": 2
+    }
+}
 
-GET /api/v1/books/search?category=Fiction&title=Foo
+GET /api/v1/books/search?category=Fiction&title=Art
 
 Response 422
 { "error_message": "Não é possível buscar por categoria e titulo ao mesmo tempo" }
@@ -108,10 +193,23 @@ Response 422
 Example:
 
 ```
-GET /api/v1/books/5
+GET /api/v1/books/1
 
 Response 200
-{ "id": 5, "title": "Some Book", "category": "History", "author": "C. Historian" }
+{
+    "books": [
+        {
+            "categoria": "Travel",
+            "disponibilidade": "In stock",
+            "id": 1,
+            "imagem": "../../../../media/cache/57/77/57770cac1628f4407636635f4b85e88c.jpg",
+            "link": "../../../full-moon-over-noahs-ark-an-odyssey-to-mount-ararat-and-beyond_811/index.html",
+            "preco": "Â£49.43",
+            "rating": "Four",
+            "titulo": "Full Moon over Noahâs Ark: An Odyssey to Mount Ararat and Beyond"
+        }
+    ]
+}
 ```
 
 4) List categories
@@ -127,21 +225,20 @@ Example:
 GET /api/v1/categories
 
 Response 200
-[ { "id": 1, "name": "Fiction" }, { "id": 2, "name": "Science" }, ... ]
+{
+    "categories": [
+        {
+            "link": "catalogue/category/books/travel_2/index.html",
+            "nome": "Travel"
+        },
+        {
+            "link": "catalogue/category/books/mystery_3/index.html",
+            "nome": "Mystery"
+        },
+        ...
+    ]
+}
 ```
-
-## Notes and assumptions
-
-- The README documents the endpoints as defined in `app/src/main.py`. The exact shape of returned objects depends on the service implementations under `app/src/services/` which read CSV data from `app/bases/`.
-- Interactive API docs are available via Flasgger (usually `/apidocs`).
-- To run the app successfully, run from the `app` folder so `src` is importable (example commands shown above).
-
-If you'd like, I can also:
-
-- Add example curl/PowerShell commands for each endpoint.
-- Extract and show exact example responses by reading the CSVs and running the service functions.
-
 ---
 
-Generated from the route definitions present in `app/src/main.py` on November 3, 2025.
 # fiap-mlet-techchallenge1
